@@ -52,6 +52,20 @@ class App extends Component {
     } else {
       newCategory = 'Bougie'
     }
+
+    let newArray = this.state.burgers.map(burger => {
+      if (burger.id === categoryBurger.id) {
+        return {...burger, category: newCategory}
+      } else {
+        return burger
+      }
+    })
+
+    this.setState({
+      burgers: newArray,
+      displayBurger: newArray.find(burger => {return burger.id === categoryBurger.id})
+    })
+
     fetch(`http://localhost:3001/burgers/${categoryBurger.id}`, {
       method: 'PATCH',
       headers: {
@@ -62,6 +76,7 @@ class App extends Component {
       })
     })
     }
+
 
     handleDeleteButton = (deletedBurger) => {
       let newArray = this.state.burgers.filter(burger => {return burger.id != deletedBurger.id})
